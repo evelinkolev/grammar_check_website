@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Tense Grammar and Spell Checker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom styles here */
+        body {
+            padding-top: 3rem;
+        }
+        .container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Perfect Tense Checker</a>
+    </nav>
+
+    <main role="main" class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">Grammar and Spell Checker</h1>
+            <p class="lead">Enter text below to check grammar and spelling:</p>
+            <div class="form-group">
+                <textarea class="form-control" id="inputText" rows="5"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="checkText()">Check Text</button>
+            <div class="mt-3" id="outputResult"></div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function checkText() {
+            var text = document.getElementById('inputText').value;
+            fetch('/check_text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: text })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('outputResult').innerHTML = '<h3>Result:</h3><p>' + data.result + '</p>';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
